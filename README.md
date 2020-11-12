@@ -61,3 +61,21 @@ Using CommonJS:
     ```
 
 3. Invoke functions as normal in `index.js`
+
+## Using Third Party Node Modules
+
+Installing with npm:
+1. In terminal `npm install <module>` 
+
+    or `npm install -g <module>` if it is a package for global use
+
+2. Double check module is installed with `npm ls` or the module version command
+
+    example: `nodemon -v`
+    ###
+    If not installed globally, confirm the dependecies are in your package.json file
+
+3. Consult module documentation for proper use
+
+4. Create a `.gitignore` file to ensure you do not track and push your modules to GitHub.
+    Make sure the file names included in .gitignore are spelled correctly for proper use
