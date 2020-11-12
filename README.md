@@ -59,3 +59,5 @@ Using CommonJS:
     ```javascript
     const { /*methods*/ } = require("./module");
     ```
+
+3. Invoke functions as normal in `index.js`
