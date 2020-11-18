@@ -187,3 +187,42 @@ To streamline the creation of html elements, you can create and share `partials`
 ```
 
 Here, the nav bar, which should be shown on every page, exists as its own entity.  It is added to each page with the above line of code. 
+
+### Using EJS Layouts
+
+To further streamline the process in multipage webapps, you can install `express-ejs-layouts`.  This npm package will allow you to create an html layout that can be shared across multiple pages.  To use:
+
+1. Install EJS Layouts:
+    `npm i express-ejs-layouts`
+2. Require layouts in your index.js file
+    `const ejsLayouts = require('express-ejs-layouts')`
+3. Include in your Express app
+    `app.use(ejsLayouts)`
+4. Create a `layout.ejs` file in the top level of your views folder
+5. In this file, set up your html boiler plate and any features you want included in every page.  Unlike partials, You can set the same `<head>` information including stylesheet and title.
+
+*To add style set up a `public` assest folder to contian your css and include in your index.js file*
+*`app.use(express.static(__dirname + '/public'))`*
+
+
+## Controllers
+
+To avoid having all of your routes in your main `js` file. You can set up controllers to handle routes that branch off of similar url paths. For example, If you have a `/blog/create`, `/blog/view`, etc.
+
+1. Create a `controllers` directory at the top level of your project
+2. Create `<path>Controller.js` files for each of your paths with multiple subroutes.
+3. In your main `js` require your routers to the proper path
+    `app.use('/blog', require('./controllers/blogController'))`
+4. In the controller file, set up and export your router
+    ```javascript
+        const blogRouter = require('express').Router();
+        //routes
+        module.exports = blogRouter;
+    ```
+5. Route the url path extension that branch off from the main path using router instead of app
+    ```javascript
+    blogRouter.get('/new', (req, res) => {
+        res.render('blog/new');
+    })
+    ```
+    This would go to the url path `/blog/new` and render your `new.ejs` file in the blog folder within the views folder.
