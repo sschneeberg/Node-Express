@@ -226,3 +226,72 @@ To avoid having all of your routes in your main `js` file. You can set up contro
     })
     ```
     This would go to the url path `/blog/new` and render your `new.ejs` file in the blog folder within the views folder.
+
+## Sequelize
+
+Sequelize is an npm ORM package that allows you to create and manipulate a database using javascript.
+
+### Setting up Sequelize with Postgres
+In terminal install globally: `npm install -g sequelize-cli`
+
+Then per project:
+1. Install `sequelize` and `pg` to talk to postgres in your project
+    `npm i sequelize pg` 
+2. Run `sequelize init`
+3. In the newly created config file: 
+    a. remove `username` and `password` key value pairs if they are not needed for you to access postgres
+    
+    b. set your `dialect` to `postgres`
+    
+    c. ensure your database name is the one you want to use for each environment
+4. Create your database
+    `sequelize db:create <databasename>_development`
+5. Establish your model, for example:
+    `sequelize model:create --name user --attributes firstName:string,lastName:string,age:integer,email:string`
+    The model is what one instance or row of your table would be.  Here, the table would be users and one user would have a firstName, lastName, age, and email value.  You do not have to include id, your primary key.
+6. Migrate your model to SQL 
+    `sequelize db:migrate`
+
+### Using Sequelize in javascript
+At the top of your file you must include your model to use it:
+
+`const db = require('./models')`
+
+Then you can use any of the db methods. A few are outlined below, plenty more can be found at [https://sequelize.org/](https://sequelize.org/master/manual/model-querying-finders.html)
+
+
+Create:
+```javascript
+db.user.create({
+    firstName: 'Simone',
+    lastName: 'Schneeberg',
+    age: 23
+    //email will be null
+})
+```
+Find:
+```javascript
+db.user.findOne({ 
+    where:{firstName: 'Simone'}
+    //returns an object, .get to clip to only the information you need
+ }).then(response => response.get())
+ //.findAll() returns an array
+```
+Delete:
+```javascript
+db.user.destroy({ 
+    where:{firstName: 'Simone'}
+    //returns the number of records deleted
+ })
+```
+Update:
+```javascript
+db.user.update({
+    lastName: 'Schneeberg'
+  }, {
+    where: {
+      firstName: 'Simone'
+    }
+    //returns the number of records changed
+})
+```
